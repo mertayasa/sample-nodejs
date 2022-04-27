@@ -9,7 +9,8 @@
         "id": "2",
         "title": "This is article 2",
         "body": "This is the body of article 2",
-        "author": "Bali Merta"
+        "author": "Bali Merta",
+        "createdAt": "22/4/2022"
     },
     {
         "id": "3",
