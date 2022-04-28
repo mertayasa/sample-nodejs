@@ -1,0 +1,48 @@
+<%- include('../partials/header.ejs') %>
+
+<body>
+    <h1>Edit article</h1>
+
+    <form>
+        <label for="title">Title</label> <br>
+        <input type="text" value="<%= article.title %>" name="title" id="title" /> <br>
+
+        <label for="author">Author</label> <br>
+        <input type="text" value="<%= article.author %>" name="author" id="author" /> <br>
+
+        <label for="body">Body</label> <br>
+        <textarea name="body" id="body" cols="30" rows="10"><%= article.body %></textarea> <br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+<script>
+    const form = document.querySelector('form')
+    form.addEventListener('submit', function(e) {
+        e.preventDefault()
+        const title = document.querySelector('#title').value
+        const author = document.querySelector('#author').value
+        const body = document.querySelector('#body').value
+        const data = {
+            title,
+            author,
+            body
+        }
+        fetch('/article/update/<%= article._id %> ', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res.code == 1){
+                window.location.href = '/article'
+            }else{
+                console.log(res.message);
+            }
+        })
+    })
+</script>

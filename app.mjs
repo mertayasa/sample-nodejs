@@ -1,41 +1,68 @@
-// import * as http from 'http'
-// import fs from 'fs'
 import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
 
 // Import Router
 import HomeRouter from './routes/HomeRouter.mjs'
+import ArticleRouter from './routes/ArticleRouter.mjs'
 
+dotenv.config()
 const app = express()
 const port = 3001
-const dbURI = 'mongodb+srv://balimerta:balimerta@cluster0.qf2mf.mongodb.net/sample1?retryWrites=true&w=majority'
+const dbURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.qf2mf.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
 
+// Connect to MongoDB
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => app.listen(port))
         .catch(err => console.log(err))
-        
+
+// Middleware & View Engine
 app.set('view engine', 'ejs')
-dotenv.config()
 app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
+// Use Router
 app.use(HomeRouter)
+app.use(ArticleRouter)
 
-app.get('/find/:id', (req, res) => {
-    res.send(`You are looking for ${req.params.id}`)
-})
-
-app.get('/create', (req, res) => {
-    res.send(`You are looking for /create`)
-})
-
-app.get('/find/:id', (req, res) => {
-    res.send(`You are looking for /${req.params.id}`)
-})
-
+// 404 Not Found
 app.use((req, res,next) =>{
   res.send('<h1> Page not found </h1>')
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// OLD CODE
+
+// import * as http from 'http'
+// import fs from 'fs'
 
 // app.listen(port, () => {
 //   console.log(`Example app listening on port ${port}`)
