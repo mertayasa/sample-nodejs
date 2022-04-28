@@ -9,7 +9,7 @@
             <h3><%= item.title %></h3>
             <small><%= item?.createdAt ?? new Date().toLocaleDateString("id-ID") %> </small>
             <p><%= item.body %> </p>
-            <small> <i> <b> Author: <%= item.author %> </b></i></small>
+            <small> <i> <b> Author: <%= item.author %> </b></i></small> <br>
             <a href="/article/edit/<%= item._id %> ">Edit</a>
             <button onclick="deleteArticle('<%= item._id %>')">Delete</button>
             <hr>
