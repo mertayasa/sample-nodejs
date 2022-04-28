@@ -5,7 +5,7 @@ import Article from "../models/Article.mjs";
 const router = express.Router()
 dotenv.config()
 
-router.get('/article', (req, res) => {
+router.get('/', (req, res) => {
     Article.find().sort({createdAt:-1})
         .then((articles) => {
             let modifiedArticles = articles.map(article => ({
@@ -23,7 +23,7 @@ router.get('/article', (req, res) => {
         .catch(err => res.send(err))
 })
 
-router.get('/article/create', (req, res) => {
+router.get('/create', (req, res) => {
     const data = {
         title: 'Create Article Page',
     }
@@ -31,7 +31,7 @@ router.get('/article/create', (req, res) => {
     res.render('article/create', data)
 })
 
-router.post('/article/store', (req, res) => {
+router.post('/store', (req, res) => {
     const count = Math.floor(Math.random() * 1000)
     const article = new Article({
         title: req.body.title,
@@ -44,7 +44,7 @@ router.post('/article/store', (req, res) => {
         .catch(err => res.send(err))
 })
 
-router.get('/article/find/:id', (req, res) => {
+router.get('/find/:id', (req, res) => {
     Article.findById(req.params.id)
         .then(article => {
             const data = {
@@ -57,7 +57,7 @@ router.get('/article/find/:id', (req, res) => {
         .catch(err => res.send(err))
 })
 
-router.get('/article/edit/:id', (req, res) => {
+router.get('/edit/:id', (req, res) => {
     Article.findById(req.params.id)
         .then(article => {
             const data = {
@@ -70,7 +70,7 @@ router.get('/article/edit/:id', (req, res) => {
         .catch(err => res.send(err))
 })
 
-router.patch('/article/update/:id', (req, res) => {
+router.patch('/update/:id', (req, res) => {
     Article.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
         body: req.body.body,
@@ -83,7 +83,7 @@ router.patch('/article/update/:id', (req, res) => {
     })
 })
 
-router.delete('/article/delete/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     Article.findByIdAndDelete(req.params.id)
             .then(() => res.json({code: 1}))
             .catch(err => {

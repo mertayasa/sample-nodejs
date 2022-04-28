@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 
 // Use Router
 app.use(HomeRouter)
-app.use(ArticleRouter)
+app.use('/article', ArticleRouter)
 
 // 404 Not Found
 app.use((req, res,next) =>{
