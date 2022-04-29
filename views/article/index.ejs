@@ -1,5 +1,5 @@
 <%- include('../partials/header.ejs') %> 
-<body x-data="{}" class="bg-red-300">
+    
     <h1>This page is <%= title %> </h1>
     <a href="/article/create">New Article</a>
     <h4 class="text-5xl text-red-200">List of article using ejs (from mongo atlas) : </h4>
@@ -18,7 +18,6 @@
     <% }else{ %>
         <h3>No Article</h3> 
     <% } %>
-</body>
 
 <%- include('../partials/globalJs.ejs') %> 
 <script>

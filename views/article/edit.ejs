@@ -1,6 +1,5 @@
 <%- include('../partials/header.ejs') %>
 
-<body>
     <h1>Edit article</h1>
 
     <form>
@@ -15,8 +14,8 @@
 
         <button type="submit">Submit</button>
     </form>
-</body>
 
+<%- include('../partials/globalJs.ejs') %> 
 <script>
     const form = document.querySelector('form')
     form.addEventListener('submit', function(e) {
