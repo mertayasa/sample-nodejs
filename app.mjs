@@ -2,10 +2,13 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
+// import Alpine from 'alpinejs'
 
 // Import Router
 import HomeRouter from './routes/HomeRouter.mjs'
 import ArticleRouter from './routes/ArticleRouter.mjs'
+
+global.myvar = 100;
 
 dotenv.config()
 const app = express()
@@ -20,6 +23,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Middleware & View Engine
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+app.use(express.static('dist'))
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
