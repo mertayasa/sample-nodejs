@@ -1,9 +1,9 @@
 <%- include('../partials/header.ejs') %> 
-<body x-data="{}">
+<body x-data="{}" class="bg-red-300">
     <h1>This page is <%= title %> </h1>
     <a href="/article/create">New Article</a>
-    <h4>List of article using ejs (from mongo atlas) : </h4>
-    <h4 x-text="$store.article.header"></h4>
+    <h4 class="text-5xl text-red-200">List of article using ejs (from mongo atlas) : </h4>
+    <h4 class="text-gray-400" x-text="$store.article.header"></h4>
 
     <% if(articles.length > 0) { %>
         <% articles.forEach(function(item) { %>
