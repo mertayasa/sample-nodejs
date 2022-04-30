@@ -20,6 +20,33 @@ const index = (req, res) => {
         .catch(err => res.send(err));
 }
 
+const paginate = (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+
+    Article.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: -1 })
+        .then(articles => {
+            let modifiedArticles = articles.map(article => ({
+                ...article._doc,
+                thumbnail: article.thumbnail ? article.thumbnail : "/images/logo.png",
+                createdAt: article._doc.createdAt.toDateString(),
+            }))
+
+            Article.countDocuments({}, (err, count) => {
+                return res.render("article/index_paginate", {
+                    title: "Article Page",
+                    pages: Math.floor(count / limit),
+                    current: page,
+                    articles: modifiedArticles,
+                })
+            })
+        })
+        .catch(err => res.send(err));
+}
+
 const create = (req, res) => {
     const data = {
         title: "Create Article Page",
@@ -108,6 +135,7 @@ const destroy = (req, res) => {
 
 export default {
     index,
+    paginate,
     create,
     store,
     find,

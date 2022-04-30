@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.get('/', ArticleController.index)
 
+router.get('/paginate', ArticleController.paginate)
+
 router.get('/create', ArticleController.create)
 
 router.post('/store', imageUpload.single('thumbnail'), ArticleController.store)
