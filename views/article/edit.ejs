@@ -3,15 +3,7 @@
     <h1>Edit article</h1>
 
     <form>
-        <label for="title">Title</label> <br>
-        <input type="text" value="<%= article.title %>" name="title" id="title" /> <br>
-
-        <label for="author">Author</label> <br>
-        <input type="text" value="<%= article.author %>" name="author" id="author" /> <br>
-
-        <label for="body">Body</label> <br>
-        <textarea name="body" id="body" cols="30" rows="10"><%= article.body %></textarea> <br>
-
+        <%- include('./partials/form.ejs') %> 
         <button type="submit">Submit</button>
     </form>
 
@@ -45,3 +37,4 @@
         })
     })
 </script>
+</html>

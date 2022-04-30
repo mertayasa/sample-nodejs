@@ -1,18 +1,38 @@
 <%- include('../partials/header.ejs') %>
-
     <h1>Create new article</h1>
-
     <form action="/article/store" method="post">
-        <label for="title">Title</label> <br>
-        <input type="text" name="title" id="title" /> <br>
-
-        <label for="author">Author</label> <br>
-        <input type="text" name="author" id="author" /> <br>
-
-        <label for="body">Body</label> <br>
-        <textarea name="body" id="body" cols="30" rows="10"></textarea> <br>
-
+        <%- include('./partials/form.ejs') %> 
         <button type="submit">Submit</button>
     </form>
-
-<%- include('../partials/globalJs.ejs') %> 
+<%- include('../partials/globalJs.ejs') %>
+<script>
+    const form = document.querySelector('form')
+    form.addEventListener('submit', function(e) {
+        e.preventDefault()
+        const title = document.querySelector('#title').value
+        const author = document.querySelector('#author').value
+        const body = document.querySelector('#body').value
+        const data = {
+            title,
+            author,
+            body
+        }
+        fetch('/article/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(res => {
+            // console.log(res);
+            if(res.code == 1){
+                window.location.href = '/article'
+            }else{
+                console.log(res.message);
+            }
+        })
+    })
+</script>
+</html>

@@ -35,8 +35,11 @@ const store = (req, res) => {
     })
 
     article.save()
-        .then(() => res.redirect('/article'))
-        .catch(err => res.send(err))
+        .then(() => res.json({code: 1}))
+        .catch(err => {
+            console.log(err);
+            res.json({code: 0, message: err.message})
+        })
 }
 
 const find = (req, res) => {
