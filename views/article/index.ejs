@@ -7,6 +7,7 @@
 
     <% if(articles.length > 0) { %>
         <% articles.forEach(function(item) { %>
+            <img src="<%= item.thumbnail %> " alt="<%= item.title %>" srcset="" width="100px">
             <h3><%= item.title %></h3>
             <small><%= item?.createdAt ?? new Date().toLocaleDateString("id-ID") %> </small>
             <p><%= item.body %> </p>

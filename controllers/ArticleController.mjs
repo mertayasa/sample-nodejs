@@ -1,10 +1,12 @@
-import Article from "../models/Article.mjs";
+import Article from "../models/Article.mjs"
+import fs from 'fs'
 
 const index = (req, res) => {
     Article.find().sort({ createdAt: -1 })
         .then((articles) => {
             let modifiedArticles = articles.map(article => ({
                 ...article._doc,
+                thumbnail: article.thumbnail ? article.thumbnail : "/images/logo.png",
                 createdAt: article._doc.createdAt.toDateString(),
             }));
 
@@ -27,13 +29,18 @@ const create = (req, res) => {
 }
 
 const store = (req, res) => {
-    const count = Math.floor(Math.random() * 1000)
-    const article = new Article({
+    let articleData = {
         title: req.body.title,
         body: req.body.body,
-        author: req.body.author
-    })
+        author: req.body.author,
+        thumbnail: null,
+    }
 
+    if (req.file) {
+        articleData.thumbnail = `/${req.file.path.split('/').slice(1).join('/')}`
+    }
+
+    const article = new Article(articleData)
     article.save()
         .then(() => res.json({code: 1}))
         .catch(err => {
@@ -45,14 +52,9 @@ const store = (req, res) => {
 const find = (req, res) => {
     Article.findById(req.params.id)
         .then(article => {
-            const data = {
-                title: "Article Detail Page",
-                article: article,
-            };
-
-            res.render("article/detail", data);
+            res.json({code: 1, article: article})
         })
-        .catch(err => res.send(err));
+        .catch(err => res.send({code: 0, message: err.message}));
 }
 
 const edit = (req, res) => {
@@ -69,11 +71,25 @@ const edit = (req, res) => {
 }
 
 const update = (req, res) => {
-    Article.findByIdAndUpdate(req.params.id, {
+    let articleData = {
         title: req.body.title,
         body: req.body.body,
         author: req.body.author,
-    })
+        thumbnail: null,
+    }
+
+    if (req.file) {
+        articleData.thumbnail = `/${req.file.path.split('/').slice(1).join('/')}`
+        Article.findById(req.params.id)
+        .then(article => {
+            if(article.thumbnail) {
+                console.log('../public' + article.thumbnail)
+                fs.unlink('./public' + article.thumbnail);
+            }
+        })
+    }
+
+    Article.findByIdAndUpdate(req.params.id, articleData)
     .then(() => res.json({code: 1}))
     .catch(err => {
         console.log(err);
