@@ -6,10 +6,13 @@ import bodyParser from 'body-parser'
 // Import Router
 import HomeRouter from './routes/HomeRouter.mjs'
 import ArticleRouter from './routes/ArticleRouter.mjs'
+import AuthRouter from './routes/AuthRouter.mjs'
+
+global.myvar = 100;
 
 dotenv.config()
 const app = express()
-const port = 3001
+const port = 3000
 const dbURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.qf2mf.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
 
 // Connect to MongoDB
@@ -24,6 +27,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // Use Router
+app.use(AuthRouter)
 app.use(HomeRouter)
 app.use('/article', ArticleRouter)
 
