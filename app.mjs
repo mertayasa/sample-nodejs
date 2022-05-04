@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 // Import Router
 import HomeRouter from './routes/HomeRouter.mjs'
 import ArticleRouter from './routes/ArticleRouter.mjs'
+import AuthRouter from './routes/AuthRouter.mjs'
 
 global.myvar = 100;
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // Use Router
+app.use(AuthRouter)
 app.use(HomeRouter)
 app.use('/article', ArticleRouter)
 
