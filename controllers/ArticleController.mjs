@@ -1,5 +1,6 @@
 import Article from "../models/Article.mjs"
 import fs from 'fs'
+import User from "../models/User.mjs";
 
 const index = (req, res) => {
     Article.find().sort({ createdAt: -1 })
@@ -47,10 +48,14 @@ const paginate = (req, res) => {
         .catch(err => res.send(err));
 }
 
-const create = (req, res) => {
+const create = async(req, res) => {
     const data = {
         title: "Create Article Page",
     };
+
+    // const user = await User.find({name: { $ne: null }}, 'name id')
+
+    // return res.json(user)
 
     res.render("article/create", data);
 }
@@ -110,8 +115,7 @@ const update = (req, res) => {
         Article.findById(req.params.id)
         .then(article => {
             if(article.thumbnail) {
-                console.log('../public' + article.thumbnail)
-                fs.unlink('./public' + article.thumbnail);
+                fs.unlink('./public' + article.thumbnail, () => {})
             }
         })
     }
